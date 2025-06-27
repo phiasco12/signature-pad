@@ -2,19 +2,32 @@
 <plugin id="signature-pad" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
 
   <name>Signature Pad</name>
-  <description>Cordova Native Plugin for Signature Capture in a Modal</description>
+  <description>A native Cordova plugin to capture user signatures in a modal (Android and iOS)</description>
   <license>MIT</license>
-  <keywords>cordova,signature,modal,canvas</keywords>
+  <keywords>cordova,plugin,signature,modal,native,cordova-android,cordova-ios</keywords>
 
   <js-module src="www/signature-pad.js" name="SignaturePad">
     <clobbers target="SignaturePadModal" />
   </js-module>
 
   <platform name="android">
-    <source-file src="src/android/SignaturePad.java" target-dir="src/com/example/signaturepad" />
+
+    <!-- Register the Android Activity -->
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <activity android:name="com.example.signaturepad.SignaturePadActivity"
+                android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen"
+                android:exported="true" />
+    </config-file>
+
+    <!-- Java Source Files -->
+    <source-file src="src/android/com/example/signaturepad/SignaturePad.java" target-dir="src/com/example/signaturepad" />
+    <source-file src="src/android/com/example/signaturepad/SignaturePadActivity.java" target-dir="src/com/example/signaturepad" />
+    <source-file src="src/android/com/example/signaturepad/SignatureView.java" target-dir="src/com/example/signaturepad" />
+
   </platform>
 
   <platform name="ios">
+    <!-- iOS native implementation will be added later -->
     <source-file src="src/ios/SignaturePad.m" />
   </platform>
 
