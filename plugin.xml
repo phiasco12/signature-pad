@@ -1,34 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin id="signature-pad" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<plugin id="signature-pad" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0">
 
-  <name>Signature Pad</name>
-  <description>A native Cordova plugin to capture user signatures in a modal (Android and iOS)</description>
-  <license>MIT</license>
-  <keywords>cordova,plugin,signature,modal,native,cordova-android,cordova-ios</keywords>
-
+  <name>SignaturePadPlugin</name>
   <js-module src="www/signature-pad.js" name="SignaturePad">
     <clobbers target="SignaturePadModal" />
   </js-module>
 
   <platform name="android">
 
-    <!-- Register the Android Activity -->
-    <config-file target="AndroidManifest.xml" parent="/manifest/application">
-      <activity android:name="com.example.signaturepad.SignaturePadActivity"
-                android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen"
-                android:exported="true" />
+    <!-- Register plugin in Cordova config.xml -->
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="SignaturePadPlugin">
+        <param name="android-package" value="com.example.signaturepad.SignaturePad" />
+      </feature>
     </config-file>
 
-    <!-- Java Source Files -->
-    <source-file src="src/android/com/example/signaturepad/SignaturePad.java" target-dir="src/com/example/signaturepad" />
-    <source-file src="src/android/com/example/signaturepad/SignaturePadActivity.java" target-dir="src/com/example/signaturepad" />
-    <source-file src="src/android/com/example/signaturepad/SignatureView.java" target-dir="src/com/example/signaturepad" />
+    <!-- Declare modal activity -->
+    <config-file parent="/manifest/application" target="AndroidManifest.xml">
+      <activity android:name="com.example.signaturepad.SignaturePadActivity"
+                android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen"
+                android:exported="true"
+                android:label="Signature Pad" />
+    </config-file>
+
+    <!-- Java source files -->
+    <source-file src="src/android/SignaturePad.java" target-dir="src/com/example/signaturepad" />
+    <source-file src="src/android/SignaturePadActivity.java" target-dir="src/com/example/signaturepad" />
+    <source-file src="src/android/SignatureView.java" target-dir="src/com/example/signaturepad" />
 
   </platform>
 
   <platform name="ios">
-    <!-- iOS native implementation will be added later -->
+    <config-file target="config.xml" parent="/*">
+      <feature name="SignaturePadPlugin">
+        <param name="ios-package" value="SignaturePad" />
+      </feature>
+    </config-file>
+
+    <!-- iOS native file placeholder -->
     <source-file src="src/ios/SignaturePad.m" />
   </platform>
 
 </plugin>
+
