@@ -1,8 +1,8 @@
 package com.example.signaturepad;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.graphics.*;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.Gravity;
@@ -26,9 +26,31 @@ public class SignaturePadActivity extends Activity {
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
         root.setBackgroundColor(Color.parseColor("#2d2d2d"));
+        root.setPadding(20, 80, 20, 20); // top padding
         root.setGravity(Gravity.CENTER_HORIZONTAL);
-        root.setPadding(20, 20, 20, 20);
 
+        // Cancel ❌
+        Button cancelBtn = new Button(this);
+        cancelBtn.setText("❌");
+        cancelBtn.setBackgroundColor(Color.TRANSPARENT);
+        cancelBtn.setTextColor(Color.WHITE);
+        cancelBtn.setTextSize(20);
+        cancelBtn.setAllCaps(false);
+        cancelBtn.setPadding(0, 0, 0, 0);
+        cancelBtn.setGravity(Gravity.START);
+        LinearLayout.LayoutParams cancelParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        cancelParams.gravity = Gravity.START;
+        cancelParams.setMargins(0, -60, 0, 20);
+        root.addView(cancelBtn, cancelParams);
+        cancelBtn.setOnClickListener(v -> {
+            setResult(RESULT_CANCELED);
+            finish();
+        });
+
+        // Signature Pad
         FrameLayout canvasHolder = new FrameLayout(this);
         int canvasSize = (int)(getResources().getDisplayMetrics().widthPixels * 0.9);
 
@@ -37,11 +59,11 @@ public class SignaturePadActivity extends Activity {
         signatureView.setLayoutParams(canvasParams);
         canvasHolder.addView(signatureView);
 
-        // Trash button (🗑)
+        // Trash button 🗑
         Button trash = new Button(this);
         trash.setText("🗑");
-        trash.setBackgroundColor(Color.parseColor("#da116d"));
         trash.setTextColor(Color.WHITE);
+        trash.setBackground(makeRoundedDrawable("#da116d"));
         FrameLayout.LayoutParams trashParams = new FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
         trashParams.gravity = Gravity.BOTTOM | Gravity.START;
@@ -55,25 +77,25 @@ public class SignaturePadActivity extends Activity {
         if (showNameInput) {
             nameInput = new EditText(this);
             nameInput.setHint("Full Name");
-            nameInput.setBackgroundColor(Color.parseColor("#444444"));
-            nameInput.setTextColor(Color.WHITE);
-            nameInput.setPadding(20, 10, 20, 10);
+            nameInput.setBackgroundColor(Color.WHITE);
+            nameInput.setTextColor(Color.BLACK);
+            nameInput.setTextSize(16);
             LinearLayout.LayoutParams nameParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                canvasSize, LinearLayout.LayoutParams.WRAP_CONTENT);
             nameParams.setMargins(0, 30, 0, 10);
             root.addView(nameInput, nameParams);
         }
 
-        // Capture button (✔)
+        // Capture ✔
         Button capture = new Button(this);
         capture.setText("✔");
         capture.setTextColor(Color.WHITE);
-        capture.setBackgroundColor(Color.parseColor("#da116d"));
+        capture.setTextSize(20);
+        capture.setBackground(makeRoundedDrawable("#da116d"));
         LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(
-            (int)(getResources().getDisplayMetrics().widthPixels * 0.9),
-            LinearLayout.LayoutParams.WRAP_CONTENT);
+            canvasSize, LinearLayout.LayoutParams.WRAP_CONTENT);
         btnParams.setMargins(0, 30, 0, 0);
-        capture.setLayoutParams(btnParams);
+        root.addView(capture, btnParams);
 
         capture.setOnClickListener(v -> {
             Bitmap bmp = signatureView.getSignatureBitmap();
@@ -85,7 +107,6 @@ public class SignaturePadActivity extends Activity {
             finish();
         });
 
-        root.addView(capture);
         setContentView(root);
     }
 
@@ -93,5 +114,12 @@ public class SignaturePadActivity extends Activity {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
         return Base64.encodeToString(outputStream.toByteArray(), Base64.NO_WRAP);
+    }
+
+    private GradientDrawable makeRoundedDrawable(String colorHex) {
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setColor(Color.parseColor(colorHex));
+        drawable.setCornerRadius(5 * getResources().getDisplayMetrics().density);
+        return drawable;
     }
 }
