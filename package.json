@@ -1,0 +1,31 @@
+{
+  "name": "cordova-plugin-signature-pad",
+  "version": "1.0.0",
+  "description": "A native Cordova plugin to capture user signatures in a modal (Android and iOS)",
+  "cordova": {
+    "id": "signature-pad",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phiasco12/signature-pad.git"
+  },
+  "keywords": [
+    "cordova",
+    "plugin",
+    "signature",
+    "modal",
+    "native",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "Rooz Farhadi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/phiasco12/signature-pad/issues"
+  },
+  "homepage": "https://github.com/phiasco12/signature-pad#readme"
+}
