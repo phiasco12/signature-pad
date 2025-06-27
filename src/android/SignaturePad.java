@@ -16,13 +16,11 @@ public class SignaturePad extends CordovaPlugin {
             this.savedCallback = callbackContext;
 
             boolean showName = args.optBoolean(0, false);
-
             Intent intent = new Intent(cordova.getActivity(), SignaturePadActivity.class);
             intent.putExtra("showNameField", showName);
 
             cordova.setActivityResultCallback(this);
             cordova.getActivity().startActivityForResult(intent, 1001);
-
             return true;
         }
         return false;
@@ -40,3 +38,4 @@ public class SignaturePad extends CordovaPlugin {
         }
     }
 }
+
