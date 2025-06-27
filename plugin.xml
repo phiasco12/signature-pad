@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="signature-pad" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <name>Signature Pad</name>
+  <description>Cordova Native Plugin for Signature Capture in a Modal</description>
+  <license>MIT</license>
+  <keywords>cordova,signature,modal,canvas</keywords>
+
+  <js-module src="www/signature-pad.js" name="SignaturePad">
+    <clobbers target="SignaturePadModal" />
+  </js-module>
+
+  <platform name="android">
+    <source-file src="src/android/SignaturePad.java" target-dir="src/com/example/signaturepad" />
+  </platform>
+
+  <platform name="ios">
+    <source-file src="src/ios/SignaturePad.m" />
+  </platform>
+
+</plugin>
