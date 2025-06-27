@@ -2,16 +2,9 @@ package com.example.signaturepad;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Base64;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.provider.MediaStore;
 
 import org.apache.cordova.*;
 import org.json.JSONArray;
-import org.json.JSONException;
 
 public class SignaturePad extends CordovaPlugin {
 
@@ -22,7 +15,11 @@ public class SignaturePad extends CordovaPlugin {
         if (action.equals("open")) {
             this.savedCallback = callbackContext;
 
+            boolean showName = args.optBoolean(0, false);
+
             Intent intent = new Intent(cordova.getActivity(), SignaturePadActivity.class);
+            intent.putExtra("showNameField", showName);
+
             cordova.setActivityResultCallback(this);
             cordova.getActivity().startActivityForResult(intent, 1001);
 
